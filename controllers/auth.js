@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require("../models/user");
+const User = require("../../models/user");
 
 exports.getProfile = (req, res) => {
     const username = req.params.username;
