@@ -1,0 +1,14 @@
+<div class="mx-auto col-8">
+    {{#if err}}
+        <div class="alert alert-warning alert-dismissible fade show text-center my-3" role="alert">
+            <div class="mx-auto">
+                {{err}}
+            </div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {{/if}}
+</div>
+
+{{designs}}

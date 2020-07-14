@@ -1,0 +1,45 @@
+
+<script>
+$(document).ready(function() {
+    $("#creatorId").keyup(function() {
+        let input = $("#creatorId");
+        input.val(input.val().toUpperCase());
+        // $(this).val($(this).val().match(/\d+/g).join("").replace(/^(MA-)?([0-9]{4})-?([0-9]{4})-?([0-9]{4})$/,'MA-$1-$2-$3'));
+    });
+})
+</script>
+
+<div class="mx-auto col-6 mt-4">
+    {{#if err}}
+        <div class="alert alert-danger alert-dismissible fade show text-center my-3" role="alert">
+            <div class="mx-auto">
+                {{err}}
+            </div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {{/if}}
+    <h2 class="text-center mb-0">Login</h2>
+    <form action="/login" method="POST">
+        <div class="col">
+            <label for="creatorId" class="mx-auto">Username</label>
+            <div class="input-group mb-2 mx-auto">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">MA-</span>
+                </div>
+                <input type="text" class="form-control" placeholder="1234-5678-9012" aria-label="Username"
+                id="creatorId" name="creatorId" value="{{form.creatorId}}" required>
+            </div>
+        </div>
+
+        <div class="col">
+            <label for="password" class="mx-auto">Password</label>
+            <input type="password" class="form-control mb-2" placeholder="Password" id="password" name="password" required>
+        </div>
+
+        <div class="col-4 mt-4 mx-auto">
+            <input class="btn btn-success form-control" type="submit" value="Go!">
+        </div>
+    </form>
+</div>

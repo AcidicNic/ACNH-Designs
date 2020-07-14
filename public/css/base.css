@@ -1,0 +1,16 @@
+/**********************************************************************/
+/* no select txt */
+.no-select, .no-select:hover { user-select: none; cursor: default; }
+
+/* my dynamic footer :) */
+html, body { min-height: 100vh; }
+#page-wrapper { min-height: 93vh; display: block; }
+#footer { height: 7vh; font-size: 2vh }
+
+/* pretty links */
+.no-ul, .no-ul:hover { color: white; text-decoration: none; }
+/**********************************************************************/
+
+.force-upper {
+    text-transform:uppercase;
+}
