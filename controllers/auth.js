@@ -32,12 +32,11 @@ exports.getProfileForm = (req, res) => {
 };
 
 exports.postProfile = (req, res) => {
-    // if (!req.user) { return res.redirect('/login'); }
     const creatorIdRegex = /^(MA-)?([0-9]{4}).?([0-9]{4}).?([0-9]{4})$/;
     console.log(creatorIdRegex.test(req.body.creatorId));
     if (!creatorIdRegex.test(req.body.creatorId) && req.body.creatorId !== "") {
         return res.render('editProfile', {
-            err: "Creator ID can only contain numbers!", form: req.body, title: "Edit Profile"
+            err: "Creator ID must be 12 characters long and can only contain numbers!", form: req.body, title: "Edit Profile"
         });
     }
 
