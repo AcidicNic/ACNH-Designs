@@ -12,5 +12,5 @@ html, body { min-height: 100vh; }
 /**********************************************************************/
 
 .force-upper {
-    text-transform:uppercase;
+    text-transform: uppercase;
 }

@@ -21,64 +21,85 @@
 </head>
 <body>
 
-    <div id="page-wrapper">
-        <!-- Navbar -->
-        <nav class="navbar navbar-light bg-dark justify-content-start">
-            <a class="nav-title no-ul" href="/">
-                <i class="fas fa-palette h2 text-white d-inline-block align-top mt-1"></i>
-                <i class="fas fa-paint-brush h4 text-white d-inline-block align-top mt-2"></i>
-                <span class="h2 text-white mx-2">Design Portal</span>
-            </a>
-            <div class="ml-auto"></div>
-            <div class="d-flex justify-content-end">
-                {{#if cUser}}
-                    <a href="/logout" class="btn btn-secondary ml-3">Logout</a>
-                    <a href="/u/{{cUser.username}}" class="btn btn-secondary ml-3">{{cUser.username}}</a>
-                {{else}}
-                    {{#unless login}}
-                        <a href="/login" class="btn btn-success ml-3">Login</a>
-                    {{/unless}}
-                    {{#unless signup}}
-                        <a href="/signup" class="btn btn-primary ml-3">Sign Up</a>
-                    {{/unless}}
+<div id="page-wrapper">
+    <!-- Navbar -->
+    <nav class="navbar navbar-light bg-dark justify-content-start">
+        <a class="nav-title no-ul" href="/">
+            <i class="fas fa-palette h2 text-white d-inline-block align-top mt-1"></i>
+            <i class="fas fa-paint-brush h4 text-white d-inline-block align-top mt-2"></i>
+            <span class="h2 text-white mx-2">Design Portal</span>
+        </a>
+        <div class="ml-auto"></div>
+        <div class="d-flex justify-content-end">
+            {{#if cUser}}
+                <div class="btn-group ml-3">
+                    <a type="button" class="btn btn-light" href="/u/{{cUser.username}}">{{cUser.username}}</a>
+                    <a type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="/edit/u">Edit Profile</a>
+                        <a class="dropdown-item" href="/create/d">Post Design</a>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item" data-toggle="modal" data-target="#deleteAcctModal">Delete Account</button>
+                        <a class="dropdown-item" href="/logout">Logout</a>
+                    </div>
+                </div>
+            {{else}}
+                {{#unless login}}
+                    <a href="/login" class="btn btn-success ml-3">Login</a>
+                {{/unless}}
+                {{#unless signup}}
+                    <a href="/signup" class="btn btn-primary ml-3">Sign Up</a>
+                {{/unless}}
 
-                {{/if}}
-            </div>
-        </nav>
-
-        <!-- Body Container -->
-        <div class="content-wrapper mx-auto my-4">
-            {{{ body }}}
+            {{/if}}
         </div>
-
+    </nav>
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteAcctModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to <strong>delete</strong> your account?!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Once it's deleted, all your data is gone forever!
+                    <form action="/delete/u" method="POST" id="delete-form"></form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="mr-auto btn btn-dark" data-dismiss="modal">Back</button>
+                    <button type="submit" form="delete-form" class="ml-auto btn btn-danger">DELETE</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <footer id="footer" class="w-100 text-center bg-dark">
-        <div class="h-100 d-flex justify-content-center align-items-center text-white">
-            <a class="mx-2 no-ul" href="https://www.linkedin.com/in/nicoleabadie/">
-                <i class="fab fa-linkedin"></i> LinkedIn
-            </a>
-            <a class="mx-2 no-ul" href="mailto: nic4096@gmail.com">
-                <i class="fas fa-envelope"></i> Email
-            </a>
-            <a class="mx-2 no-ul" href="https://github.com/AcidicNic">
-                <i class="fab fa-github"></i> Github
-            </a>
-            <a class="mx-2 no-ul" href="https://www.makeschool.com/portfolio/nicoleAbadie">
-                <i class="fas fa-gem"></i> Portfolio
-            </a>
-            <a class="mx-2 no-ul" href="https://twitter.com/niccsuccs">
-                <i class="fab fa-twitter"></i> Twitter
-            </a>
-        </div>
-    </footer>
+    <!-- Body Container -->
+    <div class="content-wrapper mx-auto my-4 text-dark">
+        {{{ body }}}
+    </div>
 
-    <!-- jQuery, Popper, and Bootstrap JS -->
-    <script src="/jquery/jquery.js"></script>
-    <script src="/popper/popper.js"></script>
-    <script src="/bs/js/bootstrap.js"></script>
-    <!-- fontawesome -->
-    <script src="/fas/js/all.js"></script>
+</div>
+
+<footer id="footer" class="w-100 text-center bg-dark">
+    <div class="h-100 d-flex justify-content-center align-items-center text-white">
+        <a class="mx-2 no-ul" href="https://github.com/AcidicNic/ACNH-Designs">
+            <i class="fab fa-github"></i> AcidicNic/ACNH-Designs
+        </a>
+    </div>
+</footer>
+
+<!-- jQuery, Popper, and Bootstrap JS -->
+<script src="/jquery/jquery.js"></script>
+<script src="/popper/popper.js"></script>
+<script src="/bs/js/bootstrap.js"></script>
+<!-- fontawesome -->
+<script src="/fas/js/all.js"></script>
 
 </body>
 </html>

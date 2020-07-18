@@ -2,9 +2,9 @@ const Design = require('../models/Design');
 
 exports.index = (req, res) => {
     const msg = req.query.msg;
-    Design.find({}).lean()
+    Design.find({}).populate('creator.user').lean()
     .then(designs => {
-        res.render('home', {designs, cUser: req.user, msg});
+        res.render('home', {designs, msg});
     }).catch(err => {
         console.log(err);
     });
@@ -13,26 +13,25 @@ exports.index = (req, res) => {
 exports.getDesign = (req, res) => {
     Design.findOne({}).populate('creator.user').lean()
     .then(design => {
-        res.render("design", {title: design.title, cUser: req.user});
+        res.render("design", {title: design.title});
     }).catch(err => {
         console.log(err);
     });
 };
 
 exports.getDesignForm = (req, res) => {
-    if (!req.user) { return res.redirect('/'); }
-    res.render("addDesign", { title: "Create Design", cUser: req.user });
+    res.render("addDesign", { title: "Create Design" });
 };
 
 exports.postDesign = (req, res) => {
-    if (!req.user) { return res.redirect('/'); }
     const designIdRegex = /^(MO-)?(([A-HJ-NP-Y0-9]){4})-?([A-HJ-NP-Y0-9]{4})-?([A-HJ-NP-Y0-9]{4})$/;
     if (designIdRegex.test(req.body.designId)) {
         return res.render('addDesign', {
-            err: "Design ID can only contain numbers!", form: req.body, title: "Create Design", cUser: req.user
+            err: "Design ID can only contain numbers!", form: req.body, title: "Create Design"
         });
     }
     const design = new Design(req.body);
+    design.creator = req.user._id;
     design.save().then((design) => {
         res.redirect(`/d/${design._id}`);
     }).catch(err => {

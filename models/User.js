@@ -6,12 +6,15 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
   createdAt: { type: Date },
   updatedAt: { type: Date },
-  password: { type: String, select: false },
+  password: { type: String, select: false},
   username: { type: String, required: true, unique: true, lowercase: true, trim: true, maxlength: 16 },
   creatorId: { type: String },
   bio: { type: String, maxlength: 200 },
+  discord: { type: String, maxlength: 37 },
+  twitter: { type: String, maxlength: 16 },
+  islandName: { type: String, maxlength: 10 },
+  name: { type: String, maxlength: 10 },
   favorites: [{ type:mongoose.Schema.ObjectId, ref: 'Design' }],
-  designs: [{ type:mongoose.Schema.ObjectId, ref: 'Design' }],
 });
 
 UserSchema.pre("save", function(next) {
@@ -30,12 +33,15 @@ UserSchema.pre("save", function(next) {
       next();
     });
   });
+  return next();
 });
 
-UserSchema.methods.comparePassword = function(password, done) {
-  bcrypt.compare(password, this.password, (err, isMatch) => {
-    done(err, isMatch);
-  });
-};
+// UserSchema.methods.comparePassword = function(password, done) {
+//   bcrypt.compare(password, this.password, (err, isMatch) => {
+//     done(err, isMatch);
+//   });
+// };
+
+// UserSchema.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model("User", UserSchema);

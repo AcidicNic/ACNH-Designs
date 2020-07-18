@@ -4,26 +4,29 @@ const app = express();
 const port = process.env.PORT || 666;
 
 // Importing packages
+const Handlebars = require('handlebars');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
-// const expressValidator = require('express-validator');
-const expressSession = require('express-session')({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false
-});
+const session = require("express-session");
+const mongooseConnection = require('./data/design-db');
+const MongoStore = require("connect-mongo")(session);
+const passport = require("./passport/setup");
 const cookieParser = require('cookie-parser');
-const jwt = require('jsonwebtoken');
+const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
+
 
 // routes
 const router = require('./routes/router');
 
 // Handlebars setup
 app.engine('hbs', exphbs({
+    handlebars: allowInsecurePrototypeAccess(Handlebars),
     defaultLayout: 'base',
     extname: '.hbs',
     layoutsDir: __dirname + '/views',
-    partialsDir: __dirname + '/views/partials'
+    partialsDir: __dirname + '/views/partials',
+    helpers: {}
+
 }));
 app.set('view engine', 'hbs');
 
@@ -31,14 +34,22 @@ app.set('view engine', 'hbs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Validator setup
-// app.use(expressValidator());
-
 // ExpressSession setup
-app.use(expressSession);
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    store: new MongoStore({ mongooseConnection: mongooseConnection })
+}));
+
+// Passport Setup
+app.use(passport.initialize());
+app.use(passport.session());
 
 // CookieParser setup
 app.use(cookieParser());
+
+
 
 // Static files in views/assets
 app.use(express.static('public'));
@@ -49,12 +60,12 @@ app.use('/jquery', express.static(__dirname + '/node_modules/jquery'));
 app.use('/popper', express.static(__dirname + '/node_modules/popper.js/dist'));
 app.use('/fas', express.static(__dirname + '/node_modules/@fortawesome/fontawesome-free'));
 
-// Check Auth and get user object!
-const auth = require('./controllers/auth');
-app.use(auth.checkAuth);
 
-// Mongoose Setup
-require('./data/design-db');
+app.use(function(req, res, next) {
+    res.locals.cUser = req.user;
+    next();
+});
+
 
 // Routes
 app.use('/', router);

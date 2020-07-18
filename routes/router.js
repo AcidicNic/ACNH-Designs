@@ -1,15 +1,16 @@
 const express = require('express');
 const router = express.Router();
+const { ensureLoggedIn } = require('connect-ensure-login');
 
 // Designs
 const main = require('../controllers/main');
 router.get('/', main.index);
 router.get('/d/:slug', main.getDesign);
-router.get('/create/d', main.getDesignForm);
-router.post('/create/d', main.postDesign);
+router.get('/create/d', ensureLoggedIn('/login'), main.getDesignForm);
+router.post('/create/d', ensureLoggedIn('/login'), main.postDesign);
 // router.get('/d/:slug/edit', main.editDesignForm);
 // router.post('/d/:slug/edit', main.updateDesign);
-router.post('/delete/d', main.deleteDesign);
+router.post('/delete/d', ensureLoggedIn('/login'), main.deleteDesign);
 
 // Auth
 const auth = require('../controllers/auth');
@@ -20,8 +21,8 @@ router.post('/login', auth.postLogin);
 router.get('/logout', auth.logout);
 // Profile
 router.get('/u/:username', auth.getProfile);
-router.get('/edit/u', auth.getProfileForm);
-router.post('/edit/u', auth.postProfile);
-router.post('/delete/u', auth.deleteUser);
+router.get('/edit/u', ensureLoggedIn('/login'), auth.getProfileForm);
+router.post('/edit/u', ensureLoggedIn('/login'), auth.postProfile);
+router.post('/delete/u', ensureLoggedIn('/login'), auth.deleteUser);
 
 module.exports = router;

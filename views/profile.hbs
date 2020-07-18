@@ -1,0 +1,55 @@
+<div class="w-75 mx-auto text-center">
+    <div class=""><span class="h3">{{user.username}}</span></div>
+    <div class="mb-3 "><small>{{#if user.creatorId}} MA-{{user.creatorId}}{{/if}}</small></div>
+    <div class="mb-3">
+        <div class="d-flex justify-content-center">
+            {{#if user.islandName}}
+                <div class="mx-2">
+                    <div class="btn btn-light"><span class="font-weight-bold">Name:</span> {{user.name}}</div>
+                </div>
+            {{/if}}
+            {{#if user.islandName}}
+                <div class="mx-2">
+                    <div class="btn btn-light"><span class="font-weight-bold">Island Name:</span> {{user.islandName}}</div>
+                </div>
+            {{/if}}
+            {{#if user.discord}}
+                <div class="mx-2">
+                    <div class="btn btn-light"><span class="font-weight-bold">Discord:</span> {{user.discord}}</div>
+                </div>
+            {{/if}}
+            {{#if user.twitter}}
+                <div class="mx-2">
+                    <button class="btn btn-light"><span class="font-weight-bold">Twitter:</span> {{user.twitter}}</button>
+                </div>
+            {{/if}}
+        </div>
+    </div>
+
+    {{#if user.bio}}
+        <div class="mb-3">
+            <div class="h5 ">Bio: </div>
+            <div class="w-50 mx-auto ">
+                {{user.bio}}
+            </div>
+        </div>
+    {{/if}}
+
+    <div class="dropdown-divider mx-auto w-50"></div>
+
+    <div class="mb-3">
+        <div class="h5">{{user.username}}'s Designs:</div>
+        <div class="">
+            {{#if designs}}
+                {{#each designs}}
+                    {{this.title}}
+                    {{this.img}}
+                    {{this.desc}}
+                    {{this.slug}}
+                {{/each}}
+            {{else}}
+                {{user.username}} hasn't posted any designs. :(
+            {{/if}}
+        </div>
+    </div>
+</div>

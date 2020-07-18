@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-assert = require("assert");
 const slug = require('mongoose-slug-updater');
+const assert = require("assert");
 
 mongoose.plugin(slug);
 mongoose.connection.on("error", console.error.bind(console, "MongoDB connection Error:"));

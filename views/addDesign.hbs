@@ -1,0 +1,56 @@
+<div class="mx-auto col-7 mt-4">
+    {{#if err}}
+        <div class="alert alert-danger alert-dismissible fade show text-center my-3" role="alert">
+            <div class="mx-auto">
+                {{err}}
+            </div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {{/if}}
+    <h2 class="text-center">Add Design</h2>
+    <form action="/create/d" method="POST">
+        <div class="row mt-2">
+            <div class="col-5">
+                <label for="designId" class="mx-auto">Design Id</label>
+                <div class="input-group mx-auto">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">MO-</span>
+                    </div>
+                    <input type="text" class="form-control force-upper" placeholder="A0B1-C2D3-E4F5" id="designId"
+                        name="designId" onkeyup="addHyphens(this)" maxlength="14" value="{{form.designIdv}}">
+                </div>
+            </div>
+
+            <div class="col-7">
+                <label for="title" class="mx-auto">Title</label>
+                <input type="text" class="form-control" placeholder="idk" id="title" name="title"
+                    value="{{form.title}}">
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col">
+                <label for="desc" class="mx-auto">Description</label>
+                <textarea name="desc" id="desc" placeholder="describe your design if you want"
+                    class="form-control" rows="2" maxlength="256">{{form.desc}}</textarea>
+            </div>
+        </div>
+
+        <div class="col mt-4">
+            <div class="row">
+                <a class="btn btn-danger" href="/">Back</a>
+                <input class="btn btn-success ml-auto" type="submit" value="Upload Design!">
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    function addHyphens (input) {
+        let creatorId = document.getElementById(input.id);
+        creatorId = creatorId.value.split('-').join('');
+        document.getElementById(input.id).value = creatorId.match(/.{1,4}/g).join('-');
+    }
+</script>
