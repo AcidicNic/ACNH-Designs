@@ -18,7 +18,7 @@
     "express-handlebars": "^4.0.6",
     "express-session": "^1.17.1",
     "express-validator": "^6.6.0",
-    "jquery": "^1.9.1",
+    "jquery": "^3.5.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.25",
     "mongoose-slug-updater": "^3.2.3",
