@@ -31,6 +31,14 @@
         </a>
         <div class="ml-auto"></div>
         <div class="d-flex justify-content-end">
+            <div>
+                <div class="input-group">
+                    <input type="text" form="searchForm" name="query" class="form-control" placeholder="Search..." aria-label="Search">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-light form-control" form="searchForm" type="submit"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
             {{#if cUser}}
                 <div class="btn-group ml-3">
                     <a type="button" class="btn btn-light" href="/u/{{cUser.username}}">{{cUser.username}}</a>
@@ -47,16 +55,21 @@
                     </div>
                 </div>
             {{else}}
-                {{#unless login}}
-                    <a href="/login" class="btn btn-success ml-3">Login</a>
-                {{/unless}}
                 {{#unless signup}}
-                    <a href="/signup" class="btn btn-primary ml-3">Sign Up</a>
+                    <a href="/signup" class="btn btn-dark ml-3">Sign Up</a>
+                {{/unless}}
+                {{#unless login}}
+                    <a href="/login" class="btn btn-outline-light ml-3">Login</a>
                 {{/unless}}
 
             {{/if}}
         </div>
     </nav>
+
+    <!-- search form -->
+    <form id="searchForm" action="/search">
+    </form>
+
     <!-- Delete Modal -->
     <div class="modal fade" id="deleteAcctModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">

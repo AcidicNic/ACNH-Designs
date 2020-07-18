@@ -11,6 +11,7 @@ router.post('/create/d', ensureLoggedIn('/login'), main.postDesign);
 router.get('/d/:slug/edit', ensureLoggedIn('/login'), main.editDesignForm);
 router.post('/d/:slug/edit', ensureLoggedIn('/login'), main.updateDesign);
 router.post('/delete/d/:id', ensureLoggedIn('/login'), main.deleteDesign);
+router.get('/search', main.searchAll);
 
 // Auth
 const auth = require('../controllers/auth');

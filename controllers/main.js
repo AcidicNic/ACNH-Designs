@@ -1,14 +1,39 @@
 const Design = require('../models/Design');
+const User = require("../models/User");
 
 exports.index = (req, res) => {
     const msg = req.query.msg;
     Design.find({}).populate('creator').lean()
     .then(designs => {
-        console.log(designs);
         res.render('home', {designs, msg});
     }).catch(err => {
         console.log(err);
     });
+};
+
+exports.searchAll = async (req, res) =>  {
+    const query = req.query.query;
+    if (query) {
+        User.find({ username: {$regex: query, '$options': 'i'} }).lean()
+        .then(users => {
+            Design.find({
+                $or: [
+                    { title: {$regex: query, '$options': 'i'} },
+                    { desc: {$regex: query, '$options': 'i'} },
+                ]
+            }).populate('creator').lean()
+            .then(designs => {
+                res.render('home', {title: query, designs, users, query});
+            }).catch(err => {
+                console.log(err);
+            });
+        }).catch(err => {
+            console.log(err);
+        });
+    } else {
+        res.redirect(`/?msg=Error finding results for ${query}`);
+    }
+
 };
 
 exports.getDesign = (req, res) => {

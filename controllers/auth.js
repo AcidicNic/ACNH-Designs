@@ -1,5 +1,4 @@
 const passport = require("passport");
-const jwt = require('jsonwebtoken');
 const User = require("../models/User");
 const Design = require('../models/Design');
 
@@ -145,6 +144,11 @@ exports.deleteUser = (req, res) => {
         if (err) {
             return res.redirect('/?err=Oops, something went wrong!');
         }
-        return res.redirect(`/?msg=Your account, ${username}, has successfully been deleted! :( Bye friend.`);
+        Design.deleteMany({ creator: req.user._id }, (err) => {
+            if (err) {
+                return res.redirect('/?err=Oops, something went wrong!');
+            }
+            return res.redirect(`/?msg=Your account, ${username}, has successfully been deleted! :( Bye friend.`);
+        });
     });
 };
