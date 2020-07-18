@@ -14,11 +14,17 @@
     {{#if designs}}
         <div class="d-flex align-content-stretch flex-wrap">
             {{#each designs}}
-                <div class="card">
-                    {{this.title}}
-                    {{this.img}}
-                    {{this.desc}}
-                    {{this.slug}}
+                <div class="card w-25">
+                    {{#if this.img}}
+                        <img class="card-img-top" src="{{this.img}}">
+                    {{else}}
+                        <img class="card-img-top" src="https://i.pinimg.com/236x/fc/7e/ce/fc7ece8e8ee1f5db97577a4622f33975--photo-icon-sad.jpg">
+                    {{/if}}
+                    <div class="card-body">
+                        <h5 class="card-title">{{this.title}}</h5>
+                        <p class="card-text">Creator: {{this.creator.username}}</p>
+                        <a href="/d/{{this.slug}}" class="w-100 btn btn-dark">View Design</a>
+                    </div>
                 </div>
             {{/each}}
         {{else}}

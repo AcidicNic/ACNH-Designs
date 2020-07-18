@@ -2,8 +2,9 @@ const Design = require('../models/Design');
 
 exports.index = (req, res) => {
     const msg = req.query.msg;
-    Design.find({}).populate('creator.user').lean()
+    Design.find({}).populate('creator').lean()
     .then(designs => {
+        console.log(designs);
         res.render('home', {designs, msg});
     }).catch(err => {
         console.log(err);
