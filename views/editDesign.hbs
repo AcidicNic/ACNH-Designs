@@ -9,8 +9,8 @@
             </button>
         </div>
     {{/if}}
-    <h2 class="text-center">Add Design</h2>
-    <form action="/create/d" method="POST">
+    <h2 class="text-center">Edit Design</h2>
+    <form action="/d/{{slug}}/edit" method="POST">
         <div class="row mt-2">
             <div class="col-5">
                 <label for="designId" class="mx-auto">Design Id</label>
@@ -49,7 +49,7 @@
         <div class="col mt-4">
             <div class="row">
                 <a class="btn btn-danger" href="/">Back</a>
-                <input class="btn btn-success ml-auto" type="submit" value="Upload Design!">
+                <input class="btn btn-success ml-auto" type="submit" value="Update Design!">
             </div>
         </div>
     </form>

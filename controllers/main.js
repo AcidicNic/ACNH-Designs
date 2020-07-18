@@ -12,9 +12,20 @@ exports.index = (req, res) => {
 };
 
 exports.getDesign = (req, res) => {
-    Design.findOne({}).populate('creator.user').lean()
+    const slug = req.params.slug;
+    Design.findOne({slug}).populate('creator').lean()
     .then(design => {
-        res.render("design", {title: design.title});
+        if (!design) {
+            return res.redirect("/?msg=Can't find that design");
+        }
+        else if (req.user) {
+            if (req.user._id.equals(design.creator._id)) {
+                return res.render("design", {title: design.title, design, ownDesign: true});
+            }
+        }
+        else {
+            return res.render("design", {title: design.title, design});
+        }
     }).catch(err => {
         console.log(err);
     });
@@ -24,27 +35,50 @@ exports.getDesignForm = (req, res) => {
     res.render("addDesign", { title: "Create Design" });
 };
 
+exports.editDesignForm = (req, res) => {
+    const slug = req.params.slug;
+    Design.findOne({slug}).populate('creator').lean()
+    .then(design => {
+        if (req.user._id.equals(design.creator._id)) {
+            return res.render("editDesign", {title: `Edit ${design.title}`, form: design, slug});
+        } else {
+            return res.redirect('/?msg=Oops, something went wrong!');
+        }
+    }).catch(err => {
+        return res.redirect('/?msg='+err);
+    });
+
+};
+
+exports.updateDesign = (req, res) => {
+    const designIdRegex = /^(MO-)?(([A-HJ-NP-Y0-9]){4})-?([A-HJ-NP-Y0-9]{4})-?([A-HJ-NP-Y0-9]{4})$/;
+    if (designIdRegex.test(req.body.designId)) {
+        return res.render("editDesign", {err: "Invalid design ID!", title: `Edit ${req.body.title}`, form: req.body, slug: req.params.slug});
+    }
+    Design.update({slug: req.params.slug}, req.body)
+    .then(design => {
+        return res.redirect(`/?msg=Succesfully updated design listing!`);
+    });
+};
+
 exports.postDesign = (req, res) => {
     const designIdRegex = /^(MO-)?(([A-HJ-NP-Y0-9]){4})-?([A-HJ-NP-Y0-9]{4})-?([A-HJ-NP-Y0-9]{4})$/;
     if (designIdRegex.test(req.body.designId)) {
         return res.render('addDesign', {
-            err: "Design ID can only contain numbers!", form: req.body, title: "Create Design"
+            err: "Invalid design ID!", form: req.body, title: "Create Design"
         });
     }
     const design = new Design(req.body);
     design.creator = req.user._id;
     design.save().then((design) => {
-        res.redirect(`/d/${design._id}`);
+        res.redirect(`/d/${design.slug}`);
     }).catch(err => {
         console.log(err.message);
     });
 };
 
 exports.deleteDesign = (req, res) => {
-    if (!req.user) {
-        return res.redirect('/?msg=You need to be logged in to do that!');
-    }
-    Design.findOneAndRemove({slug: req.params.id, creator: req.user._id}, (err) => {
+    Design.findOneAndRemove({_id: req.params.id, creator: req.user._id}, (err) => {
         if (err) {
             return res.redirect('/?msg=Oops, something went wrong!');
         }

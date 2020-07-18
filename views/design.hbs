@@ -1,0 +1,52 @@
+<div class="mx-auto w-75 ">
+
+    <div class="row">
+        <div class="col-4">
+            {{#if design.img}}
+                <img class="w-100" src="{{design.img}}">
+            {{else}}
+                <img class="w-100" src="https://i.pinimg.com/236x/fc/7e/ce/fc7ece8e8ee1f5db97577a4622f33975--photo-icon-sad.jpg">
+            {{/if}}
+        </div>
+        <div class="col-7 ml-3">
+            <div class=""><span class="h3">{{design.title}}</span></div>
+            <div class="mb-2 "><small>{{#if design.creator.creatorId}} MA-{{design.creator.creatorId}}{{/if}}</small> <small>{{#if design.designId}} // MO-{{design.designId}}{{/if}}</small></div>
+
+           {{#if design.desc}}
+                <div class="h5 ">Description: </div>
+                <div class="">
+                    {{design.desc}}
+                </div>
+            {{/if}}
+        </div>
+    </div>
+{{#if ownDesign}}
+    <div class="mb-0">
+        <div class="d-flex justify-content-center">
+            <a href="/d/{{design.slug}}/edit" class="btn btn-info btn-sm mx-2">Edit Design</a>
+            <button class="btn btn-danger btn-sm mx-2" data-toggle="modal" data-target="#deleteDesignModal">Delete Design</button>
+        </div>
+    </div>
+    <div class="modal fade" id="deleteDesignModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Are you sure you want to <strong>delete</strong> your design?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Once "{{design.title}}" is deleted, all of it's data will be gone forever!
+                    <form action="/delete/d/{{design._id}}" method="POST" id="delete-design-form"></form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="mr-auto btn btn-dark" data-dismiss="modal">Back</button>
+                    <button type="submit" form="delete-design-form" class="ml-auto btn btn-danger">DELETE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/if}}
+</div>
+

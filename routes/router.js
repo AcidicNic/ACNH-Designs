@@ -8,9 +8,9 @@ router.get('/', main.index);
 router.get('/d/:slug', main.getDesign);
 router.get('/create/d', ensureLoggedIn('/login'), main.getDesignForm);
 router.post('/create/d', ensureLoggedIn('/login'), main.postDesign);
-// router.get('/d/:slug/edit', main.editDesignForm);
-// router.post('/d/:slug/edit', main.updateDesign);
-router.post('/delete/d', ensureLoggedIn('/login'), main.deleteDesign);
+router.get('/d/:slug/edit', ensureLoggedIn('/login'), main.editDesignForm);
+router.post('/d/:slug/edit', ensureLoggedIn('/login'), main.updateDesign);
+router.post('/delete/d/:id', ensureLoggedIn('/login'), main.deleteDesign);
 
 // Auth
 const auth = require('../controllers/auth');

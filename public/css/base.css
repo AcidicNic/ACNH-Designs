@@ -14,3 +14,11 @@ html, body { min-height: 100vh; }
 .force-upper {
     text-transform: uppercase;
 }
+.card-img-top {
+    width: 100%;
+    height: 15em;
+    object-fit: cover;
+}
+.card-wrap {
+    width: 20em;
+}

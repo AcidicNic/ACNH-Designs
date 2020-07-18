@@ -36,17 +36,31 @@
     {{/if}}
 
     <div class="dropdown-divider mx-auto w-50"></div>
-
     <div class="mb-3">
-        <div class="h5">{{user.username}}'s Designs:</div>
+        <div class="h5 text-center">{{user.username}}'s Designs:</div>
         <div class="">
             {{#if designs}}
-                {{#each designs}}
-                    {{this.title}}
-                    {{this.img}}
-                    {{this.desc}}
-                    {{this.slug}}
-                {{/each}}
+                <div class="d-flex align-content-stretch flex-wrap mx-auto">
+                    {{#each designs}}
+                        <div class="mx-auto card-wrap">
+                            <div class="card m-3">
+                                {{#if this.img}}
+                                    <img class="card-img-top" src="{{this.img}}">
+                                {{else}}
+                                    <img class="card-img-top" src="https://i.pinimg.com/236x/fc/7e/ce/fc7ece8e8ee1f5db97577a4622f33975--photo-icon-sad.jpg">
+                                {{/if}}
+                                <div class="card-body">
+                                    <h5 class="card-title text-center">{{this.title}}</h5>
+                                    <div class="mb-2 mx-auto">
+                                        <a class="btn btn-light btn-sm w-100" href="/u/{{this.creator.username}}">Created by: {{this.creator.username}}</a>
+                                    </div>
+
+                                    <a href="/d/{{this.slug}}" class="w-100 btn btn-dark">View Design</a>
+                                </div>
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
             {{else}}
                 {{user.username}} hasn't posted any designs. :(
             {{/if}}
